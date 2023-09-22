@@ -1,0 +1,36 @@
+const express = require('express');
+const router = express.Router();
+const { Comment } = require('../../models');
+const withAuth = require('../../utils/auth');
+
+// Middleware for error handling
+const asyncHandler = (callback) => {
+  return async (req, res, next) => {
+    try {
+      await callback(req, res, next);
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({ error: 'An error occurred' });
+    }
+  };
+};
+
+// Get all comments
+router.get('/', asyncHandler(async (req, res) => {
+  const dbCommentData = await Comment.findAll();
+  res.json(dbCommentData);
+}));
+
+// Create a comment
+router.post('/', withAuth, asyncHandler(async (req, res) => {
+  if (req.session) {
+    const { comment_text, post_id } = req.body;
+    const { user_id } = req.session;
+    const dbCommentData = await Comment.create({ comment_text, post_id, user_id });
+    res.json(dbCommentData);
+  } else {
+    res.status(400).json({ error: 'You must be logged in to comment' });
+  }
+}));
+
+module.exports = router;
