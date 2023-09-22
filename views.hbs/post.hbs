@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>My Blog - {{title}}</title>
+</head>
+<body>
+  <h1>{{title}}</h1>
+
+  <p>{{content}}</p>
+
+  <h3>Comments</h3>
+
+  <ul>
+    {{#each comments}}
+      <li>{{content}}</li>
+    {{/each}}
+  </ul>
+
+  <form action="/comment" method="post">
+    <input type="hidden" name="postId" value="{{id}}">
+    <textarea name="content" placeholder="Leave a comment"></textarea>
+    <button type="submit">Submit</button>
+  </form>
+</body>
+</html>
+

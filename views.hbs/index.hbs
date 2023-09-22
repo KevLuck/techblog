@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>My Blog</title>
+</head>
+<body>
+  <h1>My Blog</h1>
+
+  <ul>
+    {{#each posts}}
+      <li><a href="/post/{{id}}">{{title}}</a></li>
+    {{/each}}
+  </ul>
+</body>
+</html>
